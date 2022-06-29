@@ -21,6 +21,7 @@ import java.util.UUID;
 
     @Id
     @GeneratedValue
+    @JsonIgnore
     private UUID id;
 
     private String name;
@@ -31,8 +32,8 @@ import java.util.UUID;
 
     private String password;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    //@JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     @JoinTable(name = "tb_user_role",
             joinColumns = @JoinColumn(name = "tb_user_id"),
             inverseJoinColumns = @JoinColumn(name = "tb_role_id"))

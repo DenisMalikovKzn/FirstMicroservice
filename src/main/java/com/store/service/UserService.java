@@ -6,6 +6,7 @@ import com.store.dto.RegisterRequestDTO;
 import com.store.enumerator.RoleType;
 import com.store.exception.StoreBusinessException;
 import com.store.exception.StoreGenericException;
+import com.store.model.Product;
 import com.store.model.Role;
 import com.store.model.User;
 import com.store.repository.RoleRepository;
@@ -13,11 +14,14 @@ import com.store.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Log4j2
@@ -38,17 +42,25 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public List<User> list(){
+        try{
+            return userRepository.findAll();
+        }catch (Exception e){
+            log.error(e.getMessage());
+            throw new StoreGenericException("Not found list users");
+        }
+    }
 
     public User findUserByEmail(String mail) {
         return userRepository.findByMail(mail)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("Usuário não encontrado : " + mail)
+                        new UsernameNotFoundException("Not found : " + mail)
                 );
     }
 
     public User findUserById(UUID id){
         return userRepository.findById(id).orElseThrow(
-                () -> new UsernameNotFoundException("Usuário não encontrado com id : " + id)
+                () -> new UsernameNotFoundException("Not found : " + id)
         );
     }
 

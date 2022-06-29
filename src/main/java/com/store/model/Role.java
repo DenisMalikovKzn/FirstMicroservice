@@ -1,5 +1,6 @@
 package com.store.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.store.enumerator.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
     @Id
     @GeneratedValue
+    @JsonIgnore
     private UUID id;
 
     @Enumerated(EnumType.STRING)
